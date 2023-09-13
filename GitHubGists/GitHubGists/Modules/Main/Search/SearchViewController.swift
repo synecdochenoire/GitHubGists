@@ -7,6 +7,7 @@ class SearchViewController: Controller<SearchViewControllerViewModel, SearchView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         configure()
         observeContentView()
         observeErrors()
@@ -15,6 +16,14 @@ class SearchViewController: Controller<SearchViewControllerViewModel, SearchView
     override func configure() {
         super.configure()
         hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - Private
