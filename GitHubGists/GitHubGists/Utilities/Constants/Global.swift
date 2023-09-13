@@ -33,6 +33,7 @@ struct Text {
         static let invalidUsername = "Invalid Username"
         static let noResponse = "No Response"
         static let userDoesntExist = "User doesn't exist"
+        static let apiRequestLimit = "API rate limit exceeded for your IP"
         static let emptyGists = "User don't have any public gists"
         static let failedToCreateURL = "Failed to create URL"
     }

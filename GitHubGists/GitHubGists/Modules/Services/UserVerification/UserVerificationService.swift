@@ -25,9 +25,11 @@ final class UserVerificationService: UserVerificationServicable{
             }
             
             if httpResponse.statusCode == 404 {
-                return .failure(NetworkingError.parsing(message: Text.Errors.userDoesntExist ))
+                return .failure(NetworkingError.parsing(message: Text.Errors.userDoesntExist))
+            } else if limitExceededForIP(with: data) {
+                return .failure(NetworkingError.parsing(message: Text.Errors.apiRequestLimit))
             }
-    
+            
             let response = try JSONDecoder().decode([GitHubGist].self, from: data)
             
             return response.isEmpty
@@ -37,5 +39,13 @@ final class UserVerificationService: UserVerificationServicable{
         catch {
             return .failure(NetworkingError.parsing(message: error.localizedDescription))
         }
+    }
+    
+    private func limitExceededForIP(with data: Data) -> Bool {
+        if let errorJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+           let errorMessage = errorJSON["message"] as? String {
+            return true
+        }
+        return false
     }
 }
